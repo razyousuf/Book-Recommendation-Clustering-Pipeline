@@ -6,7 +6,7 @@ with open("README.md", "r", encoding="utf-8") as f:
 ## edit below variables as per your requirements -
 REPO_NAME = "Book Recommendation Clustering Pipeline"
 AUTHOR_USER_NAME = "Raz Yousufi"
-SRC_REPO = "books_recommender"
+SRC_REPO = "book_recommender"
 LIST_OF_REQUIREMENTS = []
 
 
