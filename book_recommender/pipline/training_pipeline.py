@@ -9,9 +9,9 @@ class TrainingPipeline:
         #self.data_transformation = DataTransformation()
         #self.model_trainer = ModelTrainer()
 
-    def start_data_ingestion(self):
+    def start_training_pipeline(self):
         """
-        Starts the data ingestion process
+        Starts the training pipeline
         """
         self.data_ingestion.initiate_data_ingestion()
 

@@ -2,7 +2,7 @@ import os
 import sys
 
 from book_recommender.exception.exception_handler import AppException
-from book_recommender.logger import log
+from book_recommender.logger.log import logging
 from book_recommender.utils.util import read_yaml_file
 from book_recommender.entity.config_entity import DataIngestionConfig
 from book_recommender.constants import *
@@ -28,7 +28,7 @@ class AppConfig:
             response = DataIngestionConfig(dataset_download_url=data_ingestion_config['dataset_download_url'],
                                            ingested_dir=ingested_data_dir,
                                            raw_data_dir=raw_data_dir)
-            log.info(f"Data Ingestion Config: {response}")
+            logging.info(f"Data Ingestion Config: {response}")
             return response
         
         except Exception as e:
