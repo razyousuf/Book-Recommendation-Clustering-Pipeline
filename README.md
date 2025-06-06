@@ -1,11 +1,8 @@
-# Visa-grant-prediction-MLOps
+# Book-Recommendation-Clustering-Pipeline
 
-- Vs code: https://code.visualstudio.com/download
+- VS code: https://code.visualstudio.com/download
 - Git: https://git-scm.com/
-- Flowchart: https://whimsical.com/
-- MLOPs Tool: https://www.evidentlyai.com/
-- MongoDB: https://account.mongodb.com/account/login
-- Data link: https://www.kaggle.com/datasets/moro23/easyvisa-dataset
+- Data link: https://www.kaggle.com/datasets/ra4u12/bookrecommendation
 
 ## Git commands
 
@@ -20,11 +17,11 @@ git push origin main
 ## Environments configuration
 
 ```bash
-conda create -n visa python=3.10 -y
+conda create -n book python=3.10 -y
 ```
 
 ```bash
-conda activate visa
+conda activate book
 ```
 
 ```bash
@@ -33,37 +30,15 @@ pip install -r requirements.txt
 
 ## Workflow
 
-1. Constants
-2. Entities
-3. Components
-4. Pipeline
-5. Main file
+1. Config file (Constants)
+2. Config Entity (Return values)
+3. App Config (Read config file)
+4. Components (Pipeline code files)
+5. Pipeline (Run components)
+6. Main file (run pipeline)
+7. App file (User interface)
 
-### Export the environment variables
-
-Option 1: Include the variables inside your **.env** file as:
-
-```bash
-
-MONGODB_CREDENTIAL="mongodb+srv://<username>:<password>...."
-
-AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>
-
-AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
-```
-
-Option 2: Include the above credintials/URLs in your OS system environment as environment varaibles.
-
-```bash
-
-export MONGODB_URL="mongodb+srv://<username>:<password>...."
-
-export AWS_ACCESS_KEY_ID=<AWS_ACCESS_KEY_ID>
-
-export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
-
-
-```
+````
 
 # AWS-CICD-Deployment-with-Github-Actions
 
@@ -110,7 +85,7 @@ export AWS_SECRET_ACCESS_KEY=<AWS_SECRET_ACCESS_KEY>
     sudo apt-get update -y
 
     sudo apt-get upgrade
-```
+````
 
     #required
 
