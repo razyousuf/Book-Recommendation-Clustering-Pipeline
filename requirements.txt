@@ -3,6 +3,7 @@ pandas
 numpy
 PyYAML
 streamlit
-kagglehub
+kaggle
+dvc
 
 -e .
