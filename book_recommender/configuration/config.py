@@ -52,7 +52,7 @@ class AppConfig:
             book_csv_file_path = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['ingested_dir'], book_csv_file)
             book_rating_csv_file_path = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['ingested_dir'], rating_csv_file)
             cleaned_data_dir = os.path.join(artifacts_dir, dataset_dir, data_validation_config['cleaned_data_dir'])
-            serialized_object_dir = os.path.join(artifacts_dir, dataset_dir, data_validation_config['serialized_object_dir'])
+            serialized_object_dir = os.path.join(artifacts_dir, data_validation_config['serialized_object_dir'])
 
             response = DataValidationConfig(
                                             book_csv_file=book_csv_file_path,
@@ -110,5 +110,4 @@ class AppConfig:
         
         except Exception as e:
             raise AppException(e, sys) from e
-        
         

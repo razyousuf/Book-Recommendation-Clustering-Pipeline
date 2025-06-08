@@ -9,7 +9,7 @@ data_ingestion_config:
 
 data_validation_config:
   cleaned_data_dir: cleaned_data
-  serialized_object_dir: serialized_object
+  serialized_object_dir: serialized_objects
   book_csv_file: BX-Books.csv
   rating_csv_file: BX-Book-Ratings.csv
 

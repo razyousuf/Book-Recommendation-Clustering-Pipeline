@@ -2,6 +2,7 @@ import os
 import sys
 import pickle
 import pandas as pd
+from book_recommender.constants import *
 from book_recommender.logger.log import logging
 from book_recommender.configuration.config import AppConfig
 from book_recommender.exception.exception_handler import AppException
@@ -28,7 +29,7 @@ class DataTransformation:
 
             #saving pivot table data
             os.makedirs(self.data_transformation_config.transformed_data_dir, exist_ok=True)
-            pickle.dump(book_pivot,open(os.path.join(self.data_transformation_config.transformed_data_dir,"transformed_data.pkl"),'wb'))
+            pickle.dump(book_pivot,open(os.path.join(self.data_transformation_config.transformed_data_dir, TRANSFORMED_DATA_FILENAME),'wb'))
             logging.info(f"Saved pivot table data to {self.data_transformation_config.transformed_data_dir}")
 
             #keeping books name
@@ -36,12 +37,12 @@ class DataTransformation:
 
             #saving book_names objects for web app
             os.makedirs(self.data_validation_config.serialized_object_dir, exist_ok=True)
-            pickle.dump(book_names,open(os.path.join(self.data_validation_config.serialized_object_dir, "book_names.pkl"),'wb'))
+            pickle.dump(book_names,open(os.path.join(self.data_validation_config.serialized_object_dir, BOOK_NAMES_FILENAME),'wb'))
             logging.info(f"Saved book_names serialization object to {self.data_validation_config.serialized_object_dir}")
 
             #saving book_pivot objects for web app
             os.makedirs(self.data_validation_config.serialized_object_dir, exist_ok=True)
-            pickle.dump(book_pivot,open(os.path.join(self.data_validation_config.serialized_object_dir, "book_pivot.pkl"),'wb'))
+            pickle.dump(book_pivot,open(os.path.join(self.data_validation_config.serialized_object_dir, BOOK_PIVOT_FILENAME),'wb'))
             logging.info(f"Saved book_pivot serialization object to {self.data_validation_config.serialized_object_dir}")
 
         except Exception as e:
