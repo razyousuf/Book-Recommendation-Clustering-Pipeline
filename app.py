@@ -130,7 +130,7 @@ if st.session_state.trained:
 
     rec_col, gap, info_col = st.columns([2, 1, 7])
     with rec_col:
-        if st.button('🔍 Show Recommendations', type='primary'):
+        if st.button('🔍 GET Recommendations', type='primary'):
             st.session_state.show_recs = True
             st.session_state.selected_book = selected_books
     

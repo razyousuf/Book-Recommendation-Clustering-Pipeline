@@ -24,10 +24,12 @@ class DataValidation:
         try:
             ratings = pd.read_csv(self.data_validation_config.rating_csv_file, sep=";", encoding='latin-1', on_bad_lines='skip', low_memory=False)
             books = pd.read_csv(self.data_validation_config.book_csv_file, sep=";", encoding='latin-1', on_bad_lines='skip', low_memory=False)
+            genre = pd.read_csv(self.data_validation_config.genre_csv_file, sep=";", encoding='latin-1', on_bad_lines='skip', low_memory=False)
 
             
             logging.info(f" Shape of ratings data file: {ratings.shape}")
             logging.info(f" Shape of books data file: {books.shape}")
+            logging.info(f" Shape of genre data file: {genre.shape}")
 
             #Here Image URL columns is important for the poster. So, we will keep it
             books = books[['ISBN','Book-Title', 'Book-Author', 'Year-Of-Publication', 'Publisher','Image-URL-L']]
@@ -40,14 +42,18 @@ class DataValidation:
                                 "Image-URL-L":"image_url"
                             })
 
-            
+            # Extract the ISBN and genre from the genre dataset
+            genre = genre[['ISBN', 'Genre']]
+            # Lets join genre with books
+            books = books.merge(genre, on='ISBN', how='left') # left join, ensure all books are included
+
             # Lets remane some wierd columns name in ratings
             ratings =ratings.rename(columns={
                                 "User-ID":'user_id',
                                 'Book-Rating':'rating'
                             })
 
-            # Lets store users who had at least rated more than 200 books
+            # Lets store users who had at least rated more than e.g. 200 books
             x = ratings['user_id'].value_counts() > USER_RATED_THRESHOLD
             y = x[x].index
             ratings = ratings[ratings['user_id'].isin(y)]
@@ -73,6 +79,7 @@ class DataValidation:
 
             #saving final_rating objects for web app
             final_rating['genre'] = final_rating.apply(lambda row: fetch_genre(row['title'], row.get('author')), axis=1)
+
             os.makedirs(self.data_validation_config.serialized_object_dir, exist_ok=True)
             pickle.dump(final_rating,open(os.path.join(self.data_validation_config.serialized_object_dir, FINAL_RATINGS_FILENAME),'wb'))
             logging.info(f"Saved final_rating serialization object to {self.data_validation_config.serialized_object_dir}")
