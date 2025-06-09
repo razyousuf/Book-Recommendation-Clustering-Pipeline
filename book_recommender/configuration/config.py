@@ -8,7 +8,8 @@ from book_recommender.entity.config_entity import (
                                                     DataIngestionConfig, 
                                                     DataValidationConfig, 
                                                     DataTransformationConfig,
-                                                    ModelTrainerConfig
+                                                    ModelTrainerConfig,
+                                                    ModelRecommendationConfig
                                                     )
 from book_recommender.constants import *
 
@@ -52,7 +53,7 @@ class AppConfig:
             book_csv_file_path = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['ingested_dir'], book_csv_file)
             book_rating_csv_file_path = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['ingested_dir'], rating_csv_file)
             cleaned_data_dir = os.path.join(artifacts_dir, dataset_dir, data_validation_config['cleaned_data_dir'])
-            serialized_object_dir = os.path.join(artifacts_dir, data_validation_config['serialized_object_dir'])
+            serialized_object_dir = os.path.join(artifacts_dir, data_validation_config['serialized_objects_dir'])
 
             response = DataValidationConfig(
                                             book_csv_file=book_csv_file_path,
@@ -111,3 +112,33 @@ class AppConfig:
         except Exception as e:
             raise AppException(e, sys) from e
         
+
+    def get_recommendation_config(self) -> ModelRecommendationConfig:
+        try:
+            recommendation_config = self.config['recommendation_config']
+            model_trainer_config = self.config['model_trainer_config']
+            data_validation_config = self.config['data_validation_config']
+            trained_model_name = model_trainer_config['trained_model_name']
+            artifacts_dir = self.config['artifacts_config']['artifacts_dir']
+            trained_model_dir = os.path.join(artifacts_dir, model_trainer_config['trained_model_dir'])
+            poster_api = recommendation_config['poster_api_url']
+            
+
+            book_name_serialized_objects = os.path.join(artifacts_dir, data_validation_config['serialized_objects_dir'], BOOK_NAMES_FILENAME)
+            book_pivot_serialized_objects = os.path.join(artifacts_dir, data_validation_config['serialized_objects_dir'], BOOK_PIVOT_FILENAME)
+            final_rating_serialized_objects = os.path.join(artifacts_dir, data_validation_config['serialized_objects_dir'], FINAL_RATINGS_FILENAME)
+
+            trained_model_path = os.path.join(trained_model_dir,trained_model_name)
+          
+            response = ModelRecommendationConfig(
+                book_name_serialized_objects = book_name_serialized_objects,
+                book_pivot_serialized_objects = book_pivot_serialized_objects,
+                final_rating_serialized_objects = final_rating_serialized_objects,
+                trained_model_path = trained_model_path
+            )
+
+            logging.info(f"Model Recommendation Config: {response}")
+            return response
+
+        except Exception as e:
+            raise AppException(e, sys) from e
