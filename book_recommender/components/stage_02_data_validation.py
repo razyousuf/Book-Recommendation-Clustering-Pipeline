@@ -7,6 +7,7 @@ from book_recommender.logger.log import logging
 from book_recommender.constants import *
 from book_recommender.configuration.config import AppConfig
 from book_recommender.exception.exception_handler import AppException
+from book_recommender.utils.enrich_metadata import fetch_genre
 
 
 
@@ -71,6 +72,7 @@ class DataValidation:
 
 
             #saving final_rating objects for web app
+            final_rating['genre'] = final_rating.apply(lambda row: fetch_genre(row['title'], row.get('author')), axis=1)
             os.makedirs(self.data_validation_config.serialized_object_dir, exist_ok=True)
             pickle.dump(final_rating,open(os.path.join(self.data_validation_config.serialized_object_dir, FINAL_RATINGS_FILENAME),'wb'))
             logging.info(f"Saved final_rating serialization object to {self.data_validation_config.serialized_object_dir}")

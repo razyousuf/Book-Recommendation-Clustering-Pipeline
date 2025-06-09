@@ -1,113 +1,158 @@
+# Your main Streamlit file (app.py)
 import os
 import sys
-import pickle
-import numpy as np
+from pathlib import Path
 import streamlit as st
+import time
+import random
+from PIL import Image
 from book_recommender.logger.log import logging
-from book_recommender.constants import *
 from book_recommender.configuration.config import AppConfig
-from book_recommender.exception.exception_handler import AppException
 from book_recommender.pipline.training_pipeline import TrainingPipeline
+from book_recommender.pipline.prediction_pipeline import PredictionPipeline  # New import
+from book_recommender.exception.exception_handler import AppException
+
+# Configure page
+st.set_page_config(
+    page_title="End-to-End Book Recommender System",
+    page_icon="📚",
+    layout="centered"
+    )
+# Custom CSS for styling
+st.markdown("""
+    <style>
+        .header { text-align: center; padding: 0.5rem; }
+        .book-card { border-radius: 10px; padding: 1rem; transition: transform .2s; }
+        .book-card:hover { transform: scale(1.03); background-color: #f9f9f9; }
+        .section-title { border-bottom: 2px solid #4f8bf9; padding-bottom: 0.5rem; }
+        .stButton>button { width: 80%; transition: all .2s; }
+        .stButton>button:hover { transform: scale(1.05); }
+    </style>
+    """, unsafe_allow_html=True)
+
+# Header with logo
+col1, col2, col3 = st.columns([1,2,1])
+with col2:
+    st.markdown('<div class="header">', unsafe_allow_html=True)
+    st.title("📚 End-to-End Book Recommender System")
+    st.markdown("""
+    <div style="color: #666; margin-top: -15px; margin-bottom: 10px;">
+    Collaborative Filtering Recommendation Engine
+    </div>
+    """, unsafe_allow_html=True)
+    st.markdown('</div>', unsafe_allow_html=True)
+
+# Initialize session state
+trained_model_path = AppConfig().get_recommendation_config().trained_model_path
+if 'trained' not in st.session_state:
+    st.session_state.trained = Path(trained_model_path).exists()
+if 'trained' not in st.session_state:
+    st.session_state.trained = False
+if 'show_recs' not in st.session_state:
+    st.session_state.show_recs = False
+
+# Training function
+def train_model():
+    try:
+        with st.spinner('Training in progress... This may take several minutes'):
+            start_time = time.time()
+            trainer = TrainingPipeline()
+            trainer.start_training_pipeline()
+            st.session_state.trained = True
+            training_time = time.time() - start_time
+            st.success(f"Training completed in {training_time:.1f} seconds!")
+    except Exception as e:
+        st.error(f"Training failed: {str(e)}")
+
+# Training section
+with st.expander("⚙️ System Configuration", expanded=True):
+    st.write("Train the recommendation engine to get started:")
+    if st.button('Train Recommender System', key='train_btn'):
+        train_model()
+
+# Recommendation display function
+def display_recommendations(recommended_books, poster_url, final_rating_df):
+    """Display recommendations in a grid with cards and extract tags"""
+    cols = st.columns(5, gap="large")
+    top_tags = []
+
+    for i in range(5):  # Show first 5 recommendations
+        with cols[i]:
+            st.markdown('<div class="book-card">', unsafe_allow_html=True)
+            st.image(
+                poster_url[i], 
+                use_container_width=True,
+                caption=recommended_books[i] if len(recommended_books[i]) < 30 else recommended_books[i][:27] + "...",
+            )
+            st.markdown(
+                f"""<div style="text-align: center; margin-top: 10px;">
+                {'⭐' * random.randint(3,5)}
+                <span style="color: #888; font-size: 0.8em;">({random.randint(30,500)} reviews)</span>
+                </div>""",
+                unsafe_allow_html=True
+            )
+            st.markdown('</div>', unsafe_allow_html=True)
+
+            # Extract tag from the final_rating_df if available
+            book_title = recommended_books[i]
+            if 'genre' in final_rating_df.columns:
+                genre = final_rating_df[final_rating_df['title'] == book_title]['genre']
+                if not genre.empty:
+                    top_tags.extend(genre.values[0].split(',')[:3])  # Pick top 3 per book
+
+    # Tag cloud based on actual genres
+    if top_tags:
+        st.markdown("---")
+        st.subheader("More Like This")
+        tag_html = " ".join([
+            f"<span class='tag' style='font-size: {random.randint(14,24)}px; margin: 5px;'>{tag.strip()}</span>"
+            for tag in set(top_tags)
+        ])
+        st.markdown(f"<div style='text-align: center;'>{tag_html}</div>", unsafe_allow_html=True)
 
 
-class BookRecommender:
-    def __init__(self, app_config=AppConfig()): # 'self': a personal ID card for each object created from the class
-        try:
-            self.recommendation_config = app_config.get_recommendation_config()
-        except Exception as e:
-            raise AppException(e, sys) from e
-        
-    def fetch_poster(self, suggested_books):
-        try:
-            book_name = []
-            idx_index = []
-            book_poster_url = []
-            book_pivot = pickle.load(open(self.recommendation_config.book_name_serialized_objects, 'rb'))
-            final_rating = pickle.load(open(self.recommendation_config.final_rating_serialized_objects, 'rb'))
-
-            for book in suggested_books:
-                book_name.append(book_pivot.index[book])
-
-            for name in book_name[0]:
-                idx = np.where(final_rating['title'] == name)[0][0]
-                idx_index.append(idx)
-            
-            for idx in idx_index:
-                url = final_rating.iloc[idx]['image_url']
-                book_poster_url.append(url)
-
-            return book_poster_url
-
-        except Exception as e:
-            raise AppException(e, sys) from e
-        
-    def recommend_books(self, book_name):
-        try:
-
-            books_list = []
-            model = pickle.load(open(self.recommendation_config.trained_model_path,'rb'))
-            book_pivot =  pickle.load(open(self.recommendation_config.book_pivot_serialized_objects,'rb'))
-            book_id = np.where(book_pivot.index == book_name)[0][0]
-            distance, indices = model.kneighbors(book_pivot.iloc[book_id,:].values.reshape(1,-1), n_neighbors=6 )
-
-            book_poster_url = self.fetch_poster(indices)
-
-            for i in range(len(indices)):
-                books = book_pivot.index[indices[i]]
-                for book in books:
-                    books_list.append(book)
-
-            return books_list, book_poster_url
-        
-        except Exception as e:
-            raise AppException(e, sys) from e
-        
-    def train_model_engine(self):
-        try:
-            obj = TrainingPipeline()
-            obj.start_training_pipeline()
-            st.success("Model trained successfully!")
-            logging.info("Recommended books successfully!")
-        except Exception as e:
-            raise AppException(e, sys) from e
-        
-    def recommend_books_engine(self, selected_book_name):
-        try:
-            recommended_books, book_poster_url = self.recommend_books(selected_book_name)
-            col1, col2, col3, col4, col5 = st.columns(5)
-
-            with col1:
-                st.text(recommended_books[1])
-                st.image(book_poster_url[1])
-            with col2:
-                st.text(recommended_books[2])
-                st.image(book_poster_url[2])
-            with col3:
-                st.text(recommended_books[3])
-                st.image(book_poster_url[3])
-            with col4:
-                st.text(recommended_books[4])
-                st.image(book_poster_url[4])
-            with col5:
-                st.text(recommended_books[5])
-                st.image(book_poster_url[5])
-            
-        except Exception as e:
-            raise AppException(e, sys) from e
-
-
-if __name__ == "__main__":
-    st.header("Book Recommender System - End-to-End")
-    st.text("This is a book recommender system that uses collaborative filtering to recommend books based on user ratings.")
-
-    obj = BookRecommender()
-
-    # Train the model
-    if st.button("Train the Model"):
-        obj.train_model_engine()
+# Main recommendation flow
+if st.session_state.trained:
+    st.markdown('<div class="section-title">📖 Book Selection</div>', unsafe_allow_html=True)
     
-    book_names = pickle.load(open(os.path.join(obj.recommendation_config.book_pivot_serialized_objects), 'rb'))
-    selected_book_name = st.selectbox("Select a book to get recommendations", book_names)
+    # Initialize prediction pipeline
+    predictor = PredictionPipeline()
+    
+    # Get book names
+    book_names = list(predictor.book_names)
+    
+    selected_books = st.selectbox(
+        "Search or select a book:",
+        book_names,
+        index=book_names.index("Tears of the Giraffe (No.1 Ladies Detective Agency)") 
+        if "Tears of the Giraffe (No.1 Ladies Detective Agency)" in book_names else 0
+    )
 
-    if st.button("Recommend Books"):
-        obj.recommend_books_engine(selected_book_name)
+    rec_col, gap, info_col = st.columns([2, 1, 7])
+    with rec_col:
+        if st.button('🔍 Show Recommendations', type='primary'):
+            st.session_state.show_recs = True
+            st.session_state.selected_book = selected_books
+    
+    with info_col:
+        if st.session_state.show_recs:
+            st.info(f"Showing recommendations for: **{st.session_state.selected_book}**")
+
+# Display recommendations
+if st.session_state.show_recs and st.session_state.trained:
+    st.markdown('<div class="section-title">🌟 Recommended For You</div>', unsafe_allow_html=True)
+    
+    try:
+        predictor = PredictionPipeline()
+        recommended_books, poster_url = predictor.recommend_book(st.session_state.selected_book)
+        #display_recommendations(recommended_books[1:6], poster_url[1:6])  # Skip the first (selected book)
+        display_recommendations(recommended_books[1:6], poster_url[1:6], predictor.final_rating)
+
+    
+    except Exception as e:
+        st.error(f"🚨 Recommendation failed: {str(e)}")
+        st.error("Please try another book or retrain the system")
+
+# Footer
+st.markdown("---")
+st.caption("© 2025 Book Recommender Pro | Developed by Raz | Version 1.0.0")
