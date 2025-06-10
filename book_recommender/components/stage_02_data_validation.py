@@ -60,9 +60,9 @@ class DataValidation:
 
             # Now join ratings with books
             ratings_with_books = ratings.merge(books, on='ISBN')
-            number_rating = ratings_with_books.groupby('title')['rating'].count().reset_index()
+            number_rating = ratings_with_books.groupby('ISBN')['rating'].count().reset_index()
             number_rating.rename(columns={'rating':'num_of_rating'},inplace=True)
-            final_rating = ratings_with_books.merge(number_rating, on='title')
+            final_rating = ratings_with_books.merge(number_rating, on='ISBN')
 
             # Lets take those books which got at least 50 user ratings
             final_rating = final_rating[final_rating['num_of_rating'] >= BOOKS_RATED_THRESHOLD]

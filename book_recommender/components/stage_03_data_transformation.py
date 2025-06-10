@@ -40,7 +40,7 @@ class DataTransformation:
             pickle.dump(book_names,open(os.path.join(self.data_validation_config.serialized_object_dir, BOOK_NAMES_FILENAME),'wb'))
             logging.info(f"Saved book_names serialization object to {self.data_validation_config.serialized_object_dir}")
 
-            #saving book_pivot objects for web app
+            #saving book_pivot objects for web app (this is used for recommendation)
             os.makedirs(self.data_validation_config.serialized_object_dir, exist_ok=True)
             pickle.dump(book_pivot,open(os.path.join(self.data_validation_config.serialized_object_dir, BOOK_PIVOT_FILENAME),'wb'))
             logging.info(f"Saved book_pivot serialization object to {self.data_validation_config.serialized_object_dir}")
