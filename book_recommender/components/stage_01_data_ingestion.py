@@ -46,12 +46,14 @@ class DataIngestion:
             subprocess.run(["kaggle", "datasets", "download", "-d", dataset_slug, "-p", zip_download_dir, "--force"], check=True)
             logging.info(f"Zipped Dataset Downloaded to: {zip_file_path}")
 
+            # Ensure directory exists
+            os.makedirs(self.data_ingestion_config.ingested_dir, exist_ok=True)
+            genre_url = self.data_ingestion_config.genre_url
+            # Correctly define the download path
+            genre_file_path = os.path.join(self.data_ingestion_config.ingested_dir, GENRE_FILE_NAME)
+            # Download the file from the web to the local path
+            urllib.request.urlretrieve(genre_url, genre_file_path)
 
-            ingested_dir = os.makedirs(self.data_ingestion_config.ingested_dir, exist_ok=True)
-            genre_file_path = os.path.join(ingested_dir, GENRE_FILE_NAME)
-            urllib.request.urlretrieve(dataset_slug, genre_file_path)
-            logging.info(f"Genre file downloaded to: {genre_file_path}")
-            
             return zip_file_path
         except Exception as e:
             raise AppException(e, sys) from e

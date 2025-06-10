@@ -33,7 +33,9 @@ class AppConfig:
 
             response = DataIngestionConfig(dataset_download_url=data_ingestion_config['dataset_download_url'],
                                            ingested_dir=ingested_data_dir,
-                                           raw_data_dir=raw_data_dir)
+                                           raw_data_dir=raw_data_dir,
+                                           genre_url=data_ingestion_config['genre_dataset_url'])
+                                           
             logging.info(f"Data Ingestion Config: {response}")
             return response
         
@@ -49,17 +51,21 @@ class AppConfig:
             dataset_dir = data_ingestion_config['dataset_dir']
             book_csv_file = data_validation_config['book_csv_file']
             rating_csv_file = data_validation_config['rating_csv_file']
+            genre_csv_file = data_validation_config['genre_csv_file']
 
             book_csv_file_path = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['ingested_dir'], book_csv_file)
             book_rating_csv_file_path = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['ingested_dir'], rating_csv_file)
             cleaned_data_dir = os.path.join(artifacts_dir, dataset_dir, data_validation_config['cleaned_data_dir'])
             serialized_object_dir = os.path.join(artifacts_dir, data_validation_config['serialized_objects_dir'])
+            genre_csv_file_path = os.path.join(artifacts_dir, dataset_dir, data_ingestion_config['ingested_dir'], genre_csv_file)
 
             response = DataValidationConfig(
                                             book_csv_file=book_csv_file_path,
                                             rating_csv_file=book_rating_csv_file_path,
                                             cleaned_data_dir=cleaned_data_dir,
-                                            serialized_object_dir=serialized_object_dir)
+                                            serialized_object_dir=serialized_object_dir,
+                                            genre_csv_file=genre_csv_file_path
+                                            )
             logging.info(f"Data Validation Config: {response}")
             return response
 

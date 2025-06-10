@@ -3,7 +3,7 @@ artifacts_config:
 
 data_ingestion_config:
   dataset_download_url: ra4u12/bookrecommendation
-  genre_dataset_url: danielalbarracinm/books-with-isbn-of-different-genres
+  genre_dataset_url: https://raw.githubusercontent.com/razyousuf/Book-Recommendation-Clustering-Pipeline/refs/heads/main/Experiment/genres.csv
   dataset_dir: dataset
   ingested_dir: ingested_data
   raw_data_dir: raw_data

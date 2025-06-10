@@ -24,7 +24,7 @@ class DataValidation:
         try:
             ratings = pd.read_csv(self.data_validation_config.rating_csv_file, sep=";", encoding='latin-1', on_bad_lines='skip', low_memory=False)
             books = pd.read_csv(self.data_validation_config.book_csv_file, sep=";", encoding='latin-1', on_bad_lines='skip', low_memory=False)
-            genre = pd.read_csv(self.data_validation_config.genre_csv_file, sep=";", encoding='latin-1', on_bad_lines='skip', low_memory=False)
+            genre = pd.read_csv(self.data_validation_config.genre_csv_file, sep=",", encoding='latin-1', on_bad_lines='skip', low_memory=False)
 
             
             logging.info(f" Shape of ratings data file: {ratings.shape}")
@@ -43,9 +43,10 @@ class DataValidation:
                             })
 
             # Extract the ISBN and genre from the genre dataset
-            genre = genre[['ISBN', 'Genre']]
+            genre = genre[['ISBN', 'genre']]
             # Lets join genre with books
             books = books.merge(genre, on='ISBN', how='left') # left join, ensure all books are included
+            logging.info(f" Shape of books data after merging with genre: {books.shape} \n {books.head()}")
 
             # Lets remane some wierd columns name in ratings
             ratings =ratings.rename(columns={
@@ -78,7 +79,7 @@ class DataValidation:
 
 
             #saving final_rating objects for web app
-            final_rating['genre'] = final_rating.apply(lambda row: fetch_genre(row['title'], row.get('author')), axis=1)
+            
 
             os.makedirs(self.data_validation_config.serialized_object_dir, exist_ok=True)
             pickle.dump(final_rating,open(os.path.join(self.data_validation_config.serialized_object_dir, FINAL_RATINGS_FILENAME),'wb'))
