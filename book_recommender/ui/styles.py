@@ -4,9 +4,18 @@ MAIN_STYLES = """
         text-align: center;
         padding: 1.5rem 0;
     }
-    .header h1 {
-        font-size: 2.5rem;
-        margin-bottom: 0.5rem;
+    .header.h1 {
+        text-align: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .header.h1 h1 {
+        margin-bottom: 0.3rem;
+    }
+
+    .header .subtitle {
+        font-size: 1.1rem;
+        color: #666;
     }
 
     .book-card { 
@@ -47,7 +56,7 @@ MAIN_STYLES = """
     .book-title {
         font-weight: 500;
         font-size: 1.1rem;
-        color: #e8eaec;
+        color: #f39c12;
         margin: 0;
         white-space: nowrap;
         overflow: hidden;

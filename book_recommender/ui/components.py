@@ -9,17 +9,12 @@ class UIStyler:
 class UIHeader:
     @staticmethod
     def render():
-        col1, col2, col3 = st.columns([1, 2, 1])
-        with col2:
-            st.markdown('<div class="header">', unsafe_allow_html=True)
-            #st.title("📚 Book Recommender")
-            st.markdown("""
-            <div class="header">
-                <h1>📚 Book Recommender System</h1>
-                <div class="subtitle">Collaborative Filtering Recommendation Engine</div>
-            </div>
-            """, unsafe_allow_html=True)
-            st.markdown('</div>', unsafe_allow_html=True)
+        st.markdown("""
+        <div class="header h1" style="text-align: center; margin-bottom: 2rem;">
+            <h1>📚 Book Recommender System</h1>
+            <div class="subtitle" style="color: #666;">Collaborative Filtering Recommendation Engine</div>
+        </div>
+        """, unsafe_allow_html=True)
 
 class BookSelector:
     @staticmethod
