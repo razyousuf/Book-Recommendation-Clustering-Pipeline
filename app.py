@@ -74,7 +74,7 @@ with st.expander("⚙️ System Configuration", expanded=not st.session_state.tr
         st.success("✅ Model is already trained and ready for recommendations!")
         st.caption("Retrain only if you have new data or want to update the model")
     
-    if st.button('Train Recommender System', key='train_btn'):
+    if st.button('Train Model', key='train_btn'):
         train_model()
             
     if Path(recommendation_config.trained_model_path).exists():

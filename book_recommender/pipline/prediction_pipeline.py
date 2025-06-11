@@ -26,7 +26,9 @@ class PredictionPipeline:
                 'image_url': row['image_url'],
                 'genre': row['genre'],
                 'author': row['author'],
-                'year': row['year']
+                'year': row['year'],
+                'avg_rating': row['avg_rating']
+                
             }
 
     def get_book_details(self, book_title):
@@ -34,7 +36,8 @@ class PredictionPipeline:
             'image_url': "https://via.placeholder.com/150x200?text=No+Cover",
             'genre': "Unknown Genre",
             'author': "Unknown Author",
-            'year': "N/A"
+            'year': "N/A",
+            'avg_rating': 0
         })
 
     def recommend_book(self, book_name):

@@ -44,6 +44,7 @@ class DataValidation:
 
             # Extract the ISBN and genre from the genre dataset
             genre = genre[['ISBN', 'genre']]
+            genres = genres.drop_duplicates(subset='ISBN')
             # Lets join genre with books
             books = books.merge(genre, on='ISBN', how='left') # left join, ensure all books are included
             logging.info(f" Shape of books data after merging with genre: {books.shape} \n {books.head()}")
@@ -58,19 +59,22 @@ class DataValidation:
             x = ratings['user_id'].value_counts() > USER_RATED_THRESHOLD
             y = x[x].index
             ratings = ratings[ratings['user_id'].isin(y)]
-
+            logging.info(f" Users with more than {USER_RATED_THRESHOLD} ratings: {ratings.head()} \n\n")
             # Now join ratings with books
             ratings_with_books = ratings.merge(books, on='ISBN')
-            number_rating = ratings_with_books.groupby('ISBN')['rating'].count().reset_index()
+            number_rating = ratings_with_books.groupby('title')['rating'].count().reset_index()
             number_rating.rename(columns={'rating':'num_of_rating'},inplace=True)
-            final_rating = ratings_with_books.merge(number_rating, on='ISBN')
+            final_rating = ratings_with_books.merge(number_rating, on='title')
 
-            # Lets take those books which got at least 50 user ratings
+            # Lets take those books which got at least the defined threshold user ratings
             final_rating = final_rating[final_rating['num_of_rating'] >= BOOKS_RATED_THRESHOLD]
+            # Now lets create a new column avg_rating which is the average rating of each book
+            final_rating["avg_rating"] = final_rating.groupby("ISBN")["rating"].transform("mean").round().astype(int)
+            final_rating = final_rating.drop_duplicates(subset=["user_id", "ISBN"])
 
             # lets drop the duplicates
-            final_rating.drop_duplicates(['user_id','title'],inplace=True)
-            logging.info(f" Shape of the final clean dataset: {final_rating.shape}")
+            final_rating = final_rating.drop_duplicates(['user_id','title'])
+            logging.info(f" Shape of the final clean dataset: {final_rating.shape} \n and null check {final_rating.isnull().sum()} \n\n")
                         
             # Saving the cleaned data for transformation
             os.makedirs(self.data_validation_config.cleaned_data_dir, exist_ok=True)

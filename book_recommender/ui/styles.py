@@ -94,6 +94,46 @@ MAIN_STYLES = """
         text-align: center;
         margin-top: 5px;
     }
+
+     .star-rating {
+        display: inline-block;
+        font-size: 1rem;
+        unicode-bidi: bidi-override;
+        direction: rtl;
+    }
+
+    .star-rating > span {
+        display: inline-block;
+        position: relative;
+        color: #ccc;
+    }
+
+    .star-rating > span.full:before {
+        content: "\\2605"; /* full star */
+        color: gold;
+    }
+
+    .star-rating > span.half:before {
+        content: "\\2605"; /* full star, but clipped */
+        color: gold;
+        position: absolute;
+        width: 50%;
+        overflow: hidden;
+    }
+
+    .star-rating > span.empty:before {
+        content: "\\2605";
+        color: #ccc;
+    }
+
+    .rating-count {
+        font-size: 0.75rem;
+        color: #555;
+        margin-top: 4px;
+    }
+
+
+
     @media (max-width: 768px) {
         .selection-row {
             flex-direction: column;
