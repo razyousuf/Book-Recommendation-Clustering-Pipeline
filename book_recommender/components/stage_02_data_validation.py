@@ -44,7 +44,7 @@ class DataValidation:
 
             # Extract the ISBN and genre from the genre dataset
             genre = genre[['ISBN', 'genre']]
-            genres = genres.drop_duplicates(subset='ISBN')
+            genre = genre.drop_duplicates(subset='ISBN')
             # Lets join genre with books
             books = books.merge(genre, on='ISBN', how='left') # left join, ensure all books are included
             logging.info(f" Shape of books data after merging with genre: {books.shape} \n {books.head()}")

@@ -64,30 +64,22 @@ class BookCard:
     def render(book_title, book_details, index):
         accent_colors = ["#4f8bf9", "#6a11cb", "#2575fc", "#2c3e50", "#1a237e"]
         border_color = accent_colors[index]
-
-        # Calculate star display
-        avg_rating = book_details.get("avg_rating", 0)
-        num_ratings = book_details.get("num_ratings", 0)
         
-
-        # Generate star HTML
-        stars_html = ""
-        if avg_rating is not None:
-            full_stars = int(avg_rating)
-            half_star = 1 if (avg_rating - full_stars) >= 0.5 else 0
-            empty_stars = 5 - full_stars - half_star
-            
-            stars_html = '<div class="star-rating">'
-            stars_html += '<span class="full"></span>' * full_stars
-            stars_html += '<span class="half"></span>' * half_star
-            stars_html += '<span class="empty"></span>' * empty_stars
-            stars_html += '</div>'
-            if num_ratings:
-                stars_html += f'<div class="rating-count">({num_ratings} ratings)</div>'
-
+        image_url = book_details.get('image_url', '')
+        genre = book_details.get('genre', 'Unknown')
+        author = book_details.get('author', 'Unknown')
+        year = book_details.get('year', 'N/A')
+        avg_rating = book_details.get('avg_rating', 0)
+        num_ratings = book_details.get('num_ratings', 0)
     
-        image_url = book_details.get("image_url", "")
-        image_tag = f'<img src="{image_url}" alt="{book_title}" style="height: 220px;">' if image_url else f'<div style="height: 120px; display: flex; align-items: center; justify-content: center;">{book_title}</div>'
+        rating_stars = '⭐' * min(5, int(avg_rating or 0))
+
+        
+        image_tag = (
+            f'<img src="{image_url}" alt="{book_title}" style="height: 220px;">'
+            if image_url
+            else f'<div style="height: 120px; display: flex; align-items: center; justify-content: center;">{book_title}</div>'
+        )
 
         return f"""
         <div class="book-card" style="border-top: 4px solid {border_color};">
@@ -95,13 +87,11 @@ class BookCard:
                 {image_tag}
             </div>
             <div style="font-weight: 500; font-size: 0.95rem; text-align: center;">
-                Genre: {book_details['genre']}
+                {rating_stars}
+                Genre: {genre}
             </div>
-            <div class="book-details">
-                <div style="text-align: center; margin-top: 5px;">
-                    {stars_html}
-                </div>
-                {book_details['author']} ({book_details['year']})
+            <div style="text-align: center; font-size: 0.9rem; color: #444;">
+                {author}({year})
             </div>
         </div>
         """

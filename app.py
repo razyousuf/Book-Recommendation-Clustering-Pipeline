@@ -31,6 +31,7 @@ st.set_page_config(
     layout="centered"
 )
 
+
 # Inject CSS
 UIStyler.inject_css()
 
@@ -43,8 +44,11 @@ if 'trained' not in st.session_state:
 if 'show_recs' not in st.session_state:
     st.session_state.show_recs = False
 
-# Load predictor
-if 'predictor' not in st.session_state and st.session_state.trained:
+if 'predictor' not in st.session_state or not st.session_state.trained:
+    st.session_state.predictor = None
+
+# Safe predictor loading
+if st.session_state.trained and st.session_state.predictor is None:
     try:
         st.session_state.predictor = PredictionPipeline()
     except Exception as e:
@@ -82,7 +86,7 @@ with st.expander("⚙️ System Configuration", expanded=not st.session_state.tr
             label="📥 Export Model",
             data=open(recommendation_config.trained_model_path, "rb"),
             file_name="book_recommender_model.pkl",
-            help="Download model"
+            #help="Download model"
         )
 
 # Main flow
