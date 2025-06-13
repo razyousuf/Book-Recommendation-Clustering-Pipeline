@@ -35,7 +35,7 @@ st.set_page_config(
 # Inject CSS
 UIStyler.inject_css()
 
-# Session states
+# --- Session State Initialization ---
 if 'trained' not in st.session_state:
     model_exists = Path(recommendation_config.trained_model_path).exists()
     book_names_exist = Path(recommendation_config.book_name_serialized_objects).exists()
@@ -44,10 +44,10 @@ if 'trained' not in st.session_state:
 if 'show_recs' not in st.session_state:
     st.session_state.show_recs = False
 
-if 'predictor' not in st.session_state or not st.session_state.trained:
+if 'predictor' not in st.session_state:
     st.session_state.predictor = None
 
-# Safe predictor loading
+# --- Predictor Initialization ---
 if st.session_state.trained and st.session_state.predictor is None:
     try:
         st.session_state.predictor = PredictionPipeline()
@@ -77,17 +77,23 @@ with st.expander("⚙️ System Configuration", expanded=not st.session_state.tr
     if st.session_state.trained:
         st.success("✅ Model is already trained and ready for recommendations!")
         st.caption("Retrain only if you have new data or want to update the model")
-    
-    if st.button('Train Model', key='train_btn'):
-        train_model()
-            
-    if Path(recommendation_config.trained_model_path).exists():
-        st.download_button(
-            label="📥 Export Model",
-            data=open(recommendation_config.trained_model_path, "rb"),
-            file_name="book_recommender_model.pkl",
-            #help="Download model"
-        )
+
+    train_button_label = "🔁 Re-train Model" if st.session_state.trained else "🚀 Train Model"
+
+    col1, col2 = st.columns([1, 1])
+
+    with col1:
+        if st.button(train_button_label, key='train_btn'):
+            train_model()
+
+    with col2:
+        if Path(recommendation_config.trained_model_path).exists():
+            st.download_button(
+                label="📥 Export Model",
+                data=open(recommendation_config.trained_model_path, "rb"),
+                file_name="model.pkl"
+            )
+
 
 # Main flow
 if st.session_state.trained:
@@ -118,6 +124,7 @@ if st.session_state.show_recs and st.session_state.trained:
         for i in range(5):
             with cols[i]:
                 if i < len(top_recommendations):
+                    #st.write("📦 DEBUG book_details:", top_details[i])
                     card_html = BookCard.render(
                         book_title=top_recommendations[i],
                         book_details=top_details[i],

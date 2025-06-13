@@ -1,4 +1,6 @@
 import streamlit as st
+from html import escape
+
 from .styles import MAIN_STYLES
 
 class UIStyler:
@@ -10,9 +12,9 @@ class UIHeader:
     @staticmethod
     def render():
         st.markdown("""
-        <div class="header h1" style="text-align: center; margin-bottom: 2rem;">
+        <div class="header h1-container">
             <h1>📚 Book Recommender System</h1>
-            <div class="subtitle" style="color: #666;">Collaborative Filtering Recommendation Engine</div>
+            <div class="subtitle">Collaborative Filtering Recommendation Engine</div>
         </div>
         """, unsafe_allow_html=True)
 
@@ -63,15 +65,14 @@ class BookCard:
     @staticmethod
     def render(book_title, book_details, index):
         accent_colors = ["#4f8bf9", "#6a11cb", "#2575fc", "#2c3e50", "#1a237e"]
-        border_color = accent_colors[index]
-        
+        border_color = accent_colors[index % len(accent_colors)]
+
         image_url = book_details.get('image_url', '')
         genre = book_details.get('genre', 'Unknown')
         author = book_details.get('author', 'Unknown')
         year = book_details.get('year', 'N/A')
-        avg_rating = book_details.get('avg_rating', 0)
-        num_rating = book_details.get('num_of_rating', 0)
-    
+        avg_rating = int(book_details.get('avg_rating', 0))
+        num_rating = int(book_details.get('num_of_rating', 0))
 
         def avg_to_stars(avg_rating):
             if avg_rating < 2:
@@ -84,28 +85,35 @@ class BookCard:
                 return 4
             else:
                 return 5
-        star_count = max(0, min(5, int(avg_to_stars(avg_rating))))
+
+        star_count = max(0, min(5, avg_to_stars(avg_rating)))
         rating_stars = '⭐' * star_count
 
-        
-        image_tag = (
-            f'<img src="{image_url}" alt="{book_title}" style="height: 220px;">'
-            if image_url
-            else f'<div style="height: 120px; display: flex; align-items: center; justify-content: center;">{book_title}</div>'
-        )
+        display_title = (book_title[:25] + '..') if len(book_title) > 25 else book_title
+        alt_title = escape(display_title)
+
+        invalid_image = (not image_url or image_url.endswith(".gif"))
+
+        if invalid_image:
+            image_tag = f'<div class="book-cover-placeholder">{display_title}</div>'
+        else:
+            image_tag = f'<img src="{image_url}" alt="{alt_title}" style="height: 220px;">'
 
         return f"""
         <div class="book-card" style="border-top: 4px solid {border_color};">
-            <div style="display: flex; justify-content: center; margin-bottom: 10px;">
+            <div class="image-container">
                 {image_tag}
             </div>
-            <div style="font-size: 0.85rem; text-align: center; margin-top: 5px;">
+            <div class="title">
+                {display_title}
+            </div>
+            <div class="genre">
                 Genre: {genre}
             </div>
-            <div style="font-weight: 500; font-size: 0.95rem; text-align: center;">
+            <div class="rating">
                 {rating_stars}({num_rating})
             </div>
-            <div style="text-align: center; font-size: 0.9rem; color: #444;">
+            <div class="author-year">
                 {author}({year})
             </div>
         </div>

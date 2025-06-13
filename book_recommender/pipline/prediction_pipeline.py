@@ -1,5 +1,6 @@
 import pickle
 import numpy as np
+import pandas as pd
 from book_recommender.configuration.config import AppConfig
 from book_recommender.exception.exception_handler import AppException
 import sys
@@ -22,12 +23,18 @@ class PredictionPipeline:
         self.book_details = {}
         for idx, row in self.final_rating.iterrows():
             title = row['title']
+            image_url = row['image_url']
+            
+            if pd.isna(image_url) or str(image_url).strip().lower() in ["", "none", "nan"]:
+                image_url = None
+            
             self.book_details[title] = {
-                'image_url': row['image_url'],
+                'image_url': image_url, 
                 'genre': row['genre'],
                 'author': row['author'],
                 'year': row['year'],
-                'avg_rating': row['avg_rating']
+                'avg_rating': row['avg_rating'],
+                'num_of_rating': row['num_of_rating']
                 
             }
 
@@ -37,7 +44,8 @@ class PredictionPipeline:
             'genre': "Unknown Genre",
             'author': "Unknown Author",
             'year': "N/A",
-            'avg_rating': 0
+            'avg_rating': 0,
+            'num_of_rating': 0
         })
 
     def recommend_book(self, book_name):

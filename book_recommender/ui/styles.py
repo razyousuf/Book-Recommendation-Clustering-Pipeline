@@ -24,7 +24,7 @@ MAIN_STYLES = """
         transition: transform 0.3s, box-shadow 0.3s;
         box-shadow: 0 4px 8px rgba(0,0,0,0.08);
         background-color: white;
-        height: 320px;
+        height: 450px;
         display: flex;
         flex-direction: column;
         justify-content: space-between;
@@ -94,6 +94,61 @@ MAIN_STYLES = """
         text-align: center;
         margin-top: 5px;
     }
+    .book-cover-placeholder {
+        height: 220px;
+        width: 150px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: #f0f0f0;
+        color: #333;
+        font-size: 0.9rem;
+        text-align: center;
+        padding: 0.5rem;
+        border-radius: 4px;
+        word-wrap: break-word;
+    }
+    /* NEW styles moved from inline */
+
+    .header.h1-container {
+        text-align: center; 
+        margin-bottom: 2rem;
+    }
+
+    .book-card .image-container {
+        display: flex; 
+        justify-content: center; 
+        margin-bottom: 10px;
+    }
+
+    .book-card .title {
+        font-size: 0.95rem; 
+        text-align: center; 
+        margin-top: 5px;
+    }
+
+    .book-card .genre {
+        font-size: 0.85rem; 
+        text-align: center; 
+        margin-top: 5px;
+    }
+
+    .book-card .rating {
+        font-weight: 500; 
+        font-size: 0.95rem; 
+        text-align: center;
+    }
+
+    .book-card .author-year {
+        text-align: center; 
+        font-size: 0.9rem; 
+        color: #444;
+    }
+
+    .recommendation-button {
+        width: 100%;
+    }
+
     @media (max-width: 768px) {
         .selection-row {
             flex-direction: column;
@@ -101,4 +156,5 @@ MAIN_STYLES = """
         }
     }
 </style>
+
 """

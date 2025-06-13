@@ -81,14 +81,14 @@ class DataValidation:
                 R = x['avg_rating']
                 return (v / (v + m)) * R + (m / (v + m)) * C
             
-            final_rating['avg_rating'] = final_rating.apply(weighted_rating, axis=1).astype(int)
+            final_rating['avg_rating'] = final_rating.apply(weighted_rating, axis=1).round(2)
 
 
             final_rating = final_rating.drop_duplicates(subset=["user_id", "ISBN"])
 
             # lets drop the duplicates
-            final_rating = final_rating.drop_duplicates(['user_id','title'])
-            logging.info(f" Shape of the final clean dataset: {final_rating.shape} \n and null check {final_rating.isnull().sum()} \n and head is {final_rating.head()}")
+            #final_rating = final_rating.drop_duplicates(['user_id','title'])
+            logging.info(f" Shape of the final clean dataset:\n {final_rating.shape} \n and null check\n {final_rating.isnull().sum()} \n and head is\n {final_rating.head()}\n")
                         
             # Saving the cleaned data for transformation
             os.makedirs(self.data_validation_config.cleaned_data_dir, exist_ok=True)
@@ -101,9 +101,10 @@ class DataValidation:
 
             os.makedirs(self.data_validation_config.serialized_object_dir, exist_ok=True)
             pickle.dump(final_rating,open(os.path.join(self.data_validation_config.serialized_object_dir, FINAL_RATINGS_FILENAME),'wb'))
-            logging.info(f"Saved final_rating serialization object to {self.data_validation_config.serialized_object_dir}")
+            logging.info(f"Saved final_rating serialization object to:\n {self.data_validation_config.serialized_object_dir}")
 
         except Exception as e:
+            logging.error("Data validation failed", exc_info=True)
             raise AppException(e, sys) from e
 
     
