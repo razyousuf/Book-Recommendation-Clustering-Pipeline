@@ -70,9 +70,22 @@ class BookCard:
         author = book_details.get('author', 'Unknown')
         year = book_details.get('year', 'N/A')
         avg_rating = book_details.get('avg_rating', 0)
-        num_ratings = book_details.get('num_ratings', 0)
+        num_rating = book_details.get('num_of_rating', 0)
     
-        rating_stars = '⭐' * min(5, int(avg_rating or 0))
+
+        def avg_to_stars(avg_rating):
+            if avg_rating < 2:
+                return 1
+            elif avg_rating < 4:
+                return 2
+            elif avg_rating < 6:
+                return 3
+            elif avg_rating < 8:
+                return 4
+            else:
+                return 5
+        star_count = max(0, min(5, int(avg_to_stars(avg_rating))))
+        rating_stars = '⭐' * star_count
 
         
         image_tag = (
@@ -86,9 +99,11 @@ class BookCard:
             <div style="display: flex; justify-content: center; margin-bottom: 10px;">
                 {image_tag}
             </div>
-            <div style="font-weight: 500; font-size: 0.95rem; text-align: center;">
-                {rating_stars}
+            <div style="font-size: 0.85rem; text-align: center; margin-top: 5px;">
                 Genre: {genre}
+            </div>
+            <div style="font-weight: 500; font-size: 0.95rem; text-align: center;">
+                {rating_stars}({num_rating})
             </div>
             <div style="text-align: center; font-size: 0.9rem; color: #444;">
                 {author}({year})

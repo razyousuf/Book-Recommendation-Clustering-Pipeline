@@ -68,13 +68,27 @@ class DataValidation:
 
             # Lets take those books which got at least the defined threshold user ratings
             final_rating = final_rating[final_rating['num_of_rating'] >= BOOKS_RATED_THRESHOLD]
-            # Now lets create a new column avg_rating which is the average rating of each book
-            final_rating["avg_rating"] = final_rating.groupby("ISBN")["rating"].transform("mean").round().astype(int)
+            
+            # Now lets calculate average rating for each book
+            final_rating['avg_rating'] = final_rating.groupby('ISBN')['rating'].transform('mean').round(3)
+
+            # Now let's apply IMDb weighted rating formula to calculate the average rating for each book
+            C = final_rating['avg_rating'].mean()
+            m = final_rating['num_of_rating'].quantile(0.5)
+
+            def weighted_rating(x, m=m, C=C):
+                v = x['num_of_rating']
+                R = x['avg_rating']
+                return (v / (v + m)) * R + (m / (v + m)) * C
+            
+            final_rating['avg_rating'] = final_rating.apply(weighted_rating, axis=1).astype(int)
+
+
             final_rating = final_rating.drop_duplicates(subset=["user_id", "ISBN"])
 
             # lets drop the duplicates
             final_rating = final_rating.drop_duplicates(['user_id','title'])
-            logging.info(f" Shape of the final clean dataset: {final_rating.shape} \n and null check {final_rating.isnull().sum()} \n\n")
+            logging.info(f" Shape of the final clean dataset: {final_rating.shape} \n and null check {final_rating.isnull().sum()} \n and head is {final_rating.head()}")
                         
             # Saving the cleaned data for transformation
             os.makedirs(self.data_validation_config.cleaned_data_dir, exist_ok=True)
