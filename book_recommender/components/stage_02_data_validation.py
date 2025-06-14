@@ -12,6 +12,9 @@ from book_recommender.utils.enrich_metadata import fetch_genre
 
 
 class DataValidation:
+    """
+    This class is responsible for validating the data. It reads the ratings, books, and genre CSV files, cleans the data, and saves the cleaned data to a new CSV file. It also serializes the final ratings object for use in the web app.
+    """
     def __init__(self, app_config = AppConfig()):
         try:
             self.data_validation_config= app_config.get_data_validation_config()
@@ -19,8 +22,13 @@ class DataValidation:
             raise AppException(e, sys) from e
 
 
-    
     def preprocess_data(self):
+        """
+        This function preprocesses the data by reading the ratings, books, and genre CSV files, cleaning the data, and saving the cleaned data to a new CSV file. It also serializes the final ratings object for use in the web app.
+        Returns: None
+        Args:
+            self: The instance of the DataValidation class.
+        """
         try:
             ratings = pd.read_csv(self.data_validation_config.rating_csv_file, sep=";", encoding='latin-1', on_bad_lines='skip', low_memory=False)
             books = pd.read_csv(self.data_validation_config.book_csv_file, sep=";", encoding='latin-1', on_bad_lines='skip', low_memory=False)
@@ -55,7 +63,7 @@ class DataValidation:
                                 'Book-Rating':'rating'
                             })
 
-            # Lets store users who had at least rated more than e.g. 200 books
+            # Lets store users who had at least rated more than user_rated_threshold e.g. 200 books
             x = ratings['user_id'].value_counts() > USER_RATED_THRESHOLD
             y = x[x].index
             ratings = ratings[ratings['user_id'].isin(y)]
@@ -87,7 +95,6 @@ class DataValidation:
             final_rating = final_rating.drop_duplicates(subset=["user_id", "ISBN"])
 
             # lets drop the duplicates
-            #final_rating = final_rating.drop_duplicates(['user_id','title'])
             logging.info(f" Shape of the final clean dataset:\n {final_rating.shape} \n and null check\n {final_rating.isnull().sum()} \n and head is\n {final_rating.head()}\n")
                         
             # Saving the cleaned data for transformation
@@ -95,10 +102,7 @@ class DataValidation:
             final_rating.to_csv(os.path.join(self.data_validation_config.cleaned_data_dir,CLEANED_DATA_FILENAME), index = False)
             logging.info(f"Saved cleaned data to {self.data_validation_config.cleaned_data_dir}")
 
-
             #saving final_rating objects for web app
-            
-
             os.makedirs(self.data_validation_config.serialized_object_dir, exist_ok=True)
             pickle.dump(final_rating,open(os.path.join(self.data_validation_config.serialized_object_dir, FINAL_RATINGS_FILENAME),'wb'))
             logging.info(f"Saved final_rating serialization object to:\n {self.data_validation_config.serialized_object_dir}")
@@ -109,10 +113,13 @@ class DataValidation:
 
     
     def initiate_data_validation(self):
+        """
+        Initiates the data validation process by calling the preprocess_data method. It logs the start and completion of the data validation process.
+        """
         try:
-            logging.info(f"{'-'*20}Data Validation log started.{'-'*20} ")
+            logging.info(f"{'+'*5}Data Validation log started.{'+'*5} ")
             self.preprocess_data()
-            logging.info(f"{'-'*20}Data Validation log completed.{'-'*20} \n\n")
+            logging.info(f"{'+'*5}Data Validation log completed.{'+'*5} \n\n")
         except Exception as e:
             raise AppException(e, sys) from e
 

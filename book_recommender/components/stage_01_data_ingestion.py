@@ -2,7 +2,6 @@ import os
 import subprocess
 from dotenv import load_dotenv
 import sys
-import kagglehub
 from six.moves import urllib
 import zipfile
 from typing import Optional
@@ -28,7 +27,6 @@ class DataIngestion:
     def download_data(self) -> str:
         """
         Fetch data from Kaggle.
-        
         Returns:
             str: Path to downloaded zip file
         """
@@ -42,14 +40,14 @@ class DataIngestion:
             zip_file_path = os.path.join(zip_download_dir, f"{book_file_name}.zip")
 
             logging.info(f"Downloading data from: {dataset_slug} to {zip_file_path}")
-            #kagglehub.dataset_download(dataset_url, path=zip_file_path)
+            
             subprocess.run(["kaggle", "datasets", "download", "-d", dataset_slug, "-p", zip_download_dir, "--force"], check=True)
             logging.info(f"Zipped Dataset Downloaded to: {zip_file_path}")
 
             # Ensure directory exists
             os.makedirs(self.data_ingestion_config.ingested_dir, exist_ok=True)
             genre_url = self.data_ingestion_config.genre_url
-            # Correctly define the download path
+            # Define the download path
             genre_file_path = os.path.join(self.data_ingestion_config.ingested_dir, GENRE_FILE_NAME)
             # Download the file from the web to the local path
             urllib.request.urlretrieve(genre_url, genre_file_path)
@@ -61,7 +59,6 @@ class DataIngestion:
     def extract_zip_file(self, zip_file_path: str) -> None:
         """
         Extract the downloaded zip file to the ingestion directory.
-        
         Args:
             zip_file_path (str): Path to the downloaded zip file
         """

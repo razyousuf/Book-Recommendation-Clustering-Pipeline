@@ -1,3 +1,8 @@
+"""
+This module defines configuration entities for the book recommender system.
+It includes configurations for data ingestion, data validation, data transformation, model training, and model recommendation.
+"""
+
 from collections import namedtuple
 
 DataIngestionConfig = namedtuple("DatasetConfig", ["dataset_download_url",

@@ -13,8 +13,14 @@ class UIHeader:
     def render():
         st.markdown("""
         <div class="header h1-container">
-            <h1>📚 Book Recommender System</h1>
-            <div class="subtitle">Collaborative Filtering Recommendation Engine</div>
+            <h1>📚 Book Recommender MLOps</h1>
+            <div class="subtitle">
+                Discover personalised book recommendations powered by collaborative filtering—tailored to your literary tastes, from timeless classics to hidden gems.
+                <span style="color: #888; font-size: 0.9rem;">Powered by machine learning to find your next great read.</span>
+                <span style="background: #e0f7fa; padding: 2px 8px; border-radius: 12px; font-size: 0.8rem; color: #00796b;">
+                    📊 ML-Powered·
+                </span>
+            </div>
         </div>
         """, unsafe_allow_html=True)
 

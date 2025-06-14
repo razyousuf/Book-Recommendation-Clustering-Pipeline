@@ -10,6 +10,9 @@ from book_recommender.exception.exception_handler import AppException
 
 
 class DataTransformation:
+    """
+    This class is responsible for transforming the data. It reads the clean data file, creates a pivot table of books and user ratings, and saves the pivot table to a file. It also saves the book names and the pivot table to be used in the web app.
+    """
     def __init__(self, app_config = AppConfig()):
         try:
             self.data_transformation_config = app_config.get_data_transformation_config()
@@ -17,9 +20,11 @@ class DataTransformation:
         except Exception as e:
             raise AppException(e, sys) from e
 
-
-    
     def get_data_transformer(self):
+        """
+        Reads the clean data file, creates a pivot table of books and user ratings, and saves the pivot table to a file.
+        Returns: None
+        """
         try:
             df = pd.read_csv(self.data_transformation_config.clean_data_file_path)
             # Lets create a pivot table
@@ -48,13 +53,15 @@ class DataTransformation:
         except Exception as e:
             raise AppException(e, sys) from e
 
-    
-
     def initiate_data_transformation(self):
+        """
+        Initiates the data transformation process by calling the get_data_transformer method. It logs the start and completion of the data transformation process.
+        Returns: None
+        """
         try:
-            logging.info(f"{'-'*20}Data Transformation log started.{'-'*20} ")
+            logging.info(f"{'+'*5}Data Transformation log started.{'+'*5} ")
             self.get_data_transformer()
-            logging.info(f"{'-'*20}Data Transformation log completed.{'-'*20} \n\n")
+            logging.info(f"{'+'*5}Data Transformation log completed.{'+'*5} \n\n")
         except Exception as e:
             raise AppException(e, sys) from e
 

@@ -1,17 +1,27 @@
 FROM python:3.12-slim-buster
 
-EXPOSE 8080
+# Set working directory
+WORKDIR /app
 
+# Copy codebase first (before installing DVC, to allow DVC pull)
+COPY . /app
+
+# Install required system packages
 RUN apt-get update && apt-get install -y \
     build-essential \
-    software-properties-common \
     git \
     && rm -rf /var/lib/apt/lists/*
 
-WORKDIR /app
+# Install Python dependencies (including DVC)
+RUN pip install --upgrade pip && \
+    pip install -r requirements.txt && \
+    pip install dvc
 
-COPY . /app
+# Pull DVC-tracked data (model, etc.)
+RUN dvc pull && dvc checkout
 
-RUN pip install -r requirements.txt
+# Expose the Streamlit port
+EXPOSE 8080
 
-ENTRYPOINT [ "streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0" ]
+# Set the entrypoint
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]

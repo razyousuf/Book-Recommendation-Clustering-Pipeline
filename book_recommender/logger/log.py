@@ -1,3 +1,7 @@
+"""
+This module sets up logging for the application. It creates a directory for logs, generates a log file with a timestamp, and configures the logging settings.
+"""
+
 import logging
 import os
 from datetime import datetime

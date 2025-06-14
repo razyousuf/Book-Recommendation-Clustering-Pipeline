@@ -15,7 +15,13 @@ from book_recommender.constants import *
 
 
 class AppConfig:
+    """
+    This class is responsible for reading the configuration file and providing access to various configuration settings.
+    It reads the YAML configuration file and provides methods to access different configuration entities such as DataIngestionConfig, DataValidationConfig, DataTransformationConfig, ModelTrainerConfig, and ModelRecommendationConfig.
 
+    Attributes:
+        config (dict): A dictionary containing the configuration settings read from the YAML file.
+"""
     def __init__(self, config_file_path:str = CONFIG_FILE_PATH):
         try:
             self.config = read_yaml_file(file_path=config_file_path)
@@ -23,6 +29,12 @@ class AppConfig:
             raise AppException(e, sys)
 
     def get_data_ingestion_config(self) -> DataIngestionConfig:
+        """
+        Reads the data ingestion configuration from the YAML file and returns a DataIngestionConfig object.
+
+        Returns:
+            DataIngestionConfig: An object containing the data ingestion configuration settings.
+        """
         try:
             data_ingestion_config = self.config['data_ingestion_config']
             artifacts_dir = self.config['artifacts_config']['artifacts_dir']
@@ -44,6 +56,12 @@ class AppConfig:
         
     
     def get_data_validation_config(self) -> DataValidationConfig:
+        """
+        Reads the data validation configuration from the YAML file and returns a DataValidationConfig object.
+        
+        Returns:
+            DataValidationConfig: An object containing the data validation configuration settings.
+        """
         try:
             data_validation_config = self.config['data_validation_config']
             data_ingestion_config = self.config['data_ingestion_config']
@@ -73,6 +91,12 @@ class AppConfig:
             raise AppException(e, sys) from e
         
     def get_data_transformation_config(self) -> DataTransformationConfig:
+        """
+        Reads the data transformation configuration from the YAML file and returns a DataTransformationConfig object.
+        
+        Returns:
+            DataTransformationConfig: An object containing the data transformation configuration settings.
+        """
         try:
             data_transformation_config = self.config['data_transformation_config']
             data_validation_config = self.config['data_validation_config']
@@ -95,6 +119,12 @@ class AppConfig:
             raise AppException(e, sys) from e
     
     def get_model_trainer_config(self) -> ModelTrainerConfig:
+        """
+        Reads the model trainer configuration from the YAML file and returns a ModelTrainerConfig object.
+        
+        Returns:
+            ModelTrainerConfig: An object containing the model trainer configuration settings.
+        """
         try:
             model_trainer_config = self.config['model_trainer_config']
             data_transformation_config = self.config['data_transformation_config']
@@ -120,6 +150,12 @@ class AppConfig:
         
 
     def get_recommendation_config(self) -> ModelRecommendationConfig:
+        """
+        Reads the recommendation configuration from the YAML file and returns a ModelRecommendationConfig object.
+        
+        Returns:
+            ModelRecommendationConfig: An object containing the recommendation configuration settings.
+        """
         try:
             recommendation_config = self.config['recommendation_config']
             model_trainer_config = self.config['model_trainer_config']

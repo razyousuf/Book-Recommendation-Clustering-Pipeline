@@ -1,5 +1,3 @@
-import os
-import sys
 import time
 from pathlib import Path
 import streamlit as st
@@ -26,7 +24,7 @@ recommendation_config = app_config.get_recommendation_config()
 
 # Page configuration
 st.set_page_config(
-    page_title="Book Recommender Pro",
+    page_title="Book Recommender",
     page_icon="📚",
     layout="centered"
 )
@@ -66,6 +64,7 @@ def train_model():
             trainer = TrainingPipeline()
             trainer.start_training_pipeline()
             st.session_state.trained = True
+            st.session_state.predictor = PredictionPipeline()  # Load predictor immediately
             training_time = time.time() - start_time
             st.success(f"Training completed in {training_time:.1f} seconds!")
             st.balloons()
@@ -77,6 +76,9 @@ with st.expander("⚙️ System Configuration", expanded=not st.session_state.tr
     if st.session_state.trained:
         st.success("✅ Model is already trained and ready for recommendations!")
         st.caption("Retrain only if you have new data or want to update the model")
+    else:
+        st.warning("⚠️ Model is not trained yet. Click the button below to start training.")
+        st.caption("Training may take several minutes depending on the dataset size")
 
     train_button_label = "🔁 Re-train Model" if st.session_state.trained else "🚀 Train Model"
 

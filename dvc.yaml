@@ -1,0 +1,33 @@
+stages:
+  data_ingestion:
+    cmd: python book_recommender/pipline/training_pipeline.py --stage data_ingestion
+    deps:
+      - book_recommender/components/stage_01_data_ingestion.py
+      - config/config.yaml
+    outs:
+      - artifacts/data_ingestion/raw_data.csv
+
+  data_validation:
+    cmd: python book_recommender/pipline/training_pipeline.py --stage data_validation
+    deps:
+      - artifacts/data_ingestion/raw_data.csv
+      - book_recommender/components/stage_02_data_validation.py
+    outs:
+      - artifacts/data_validation/validated_data.csv
+
+  data_transformation:
+    cmd: python book_recommender/pipline/training_pipeline.py --stage data_transformation
+    deps:
+      - artifacts/data_validation/validated_data.csv
+      - book_recommender/components/stage_03_data_transformation.py
+    outs:
+      - artifacts/data_transformation/transformed_data.pkl
+
+  model_trainer:
+    cmd: python book_recommender/pipline/training_pipeline.py --stage model_trainer
+    deps:
+      - artifacts/data_transformation/transformed_data.pkl
+      - book_recommender/components/stage_04_model_trainer.py
+    outs:
+      - artifacts/model_trainer/model.pkl
+      - artifacts/model_trainer/book_names.pkl
