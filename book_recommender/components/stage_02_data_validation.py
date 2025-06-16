@@ -1,14 +1,11 @@
 import os
 import sys
-import ast 
 import pandas as pd
 import pickle
 from book_recommender.logger.log import logging
 from book_recommender.constants import *
 from book_recommender.configuration.config import AppConfig
 from book_recommender.exception.exception_handler import AppException
-from book_recommender.utils.enrich_metadata import fetch_genre
-
 
 
 class DataValidation:
