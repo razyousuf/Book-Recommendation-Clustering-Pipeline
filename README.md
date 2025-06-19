@@ -109,4 +109,3 @@ pip install -r requirements.txt
 - AWS_SECRET_ACCESS_KEY
 - AWS_DEFAULT_REGION
 - ECR_REPO
-- MONGODB_URL
