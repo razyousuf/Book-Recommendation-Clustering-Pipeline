@@ -1,124 +1,124 @@
 {
-    # — Fiction — 
-    "Fantasy": [
-        "magic", "dragon", "wizard", "elf", "fairy", "sorcery", "spell",
-        "kingdom", "orc", "mythic", "faerie", "portal", "elemental",
-        "urban fantasy", "epic fantasy", "high fantasy", "dark fantasy"
-    ],
-    "Science Fiction": [
-        "space", "robot", "alien", "dystopian", "cyberpunk", "futuristic",
-        "time travel", "ai", "post‑apocalyptic", "interstellar",
-        "galactic", "terraform", "hard sci‑fi", "soft sci‑fi", "space opera"
-    ],
-    "Mystery & Thriller": [
-        "detective", "murder", "crime", "thriller", "suspense",
-        "investigation", "whodunit", "noir", "espionage", "conspiracy",
-        "cozy mystery", "psychological thriller", "legal thriller"
-    ],
-    "Romance": [
-        "romance", "love", "affair", "passion", "relationship", "heart",
-        "bridgerton", "historical romance", "contemporary romance",
-        "romantic suspense", "erotic", "paranormal romance"
-    ],
-    "Horror": [
-        "ghost", "haunted", "vampire", "werewolf", "zombie", "supernatural",
-        "demon", "possession", "nightmare", "gore", "creepy",
-        "cosmic horror", "slasher", "body horror"
-    ],
-    "Historical Fiction": [
-        "renaissance", "empire", "civil war", "victorian", "viking",
-        "ottoman", "war saga", "period piece", "time slip"
-    ],
-    "Literary Fiction": [
-        "literary", "bildungsroman", "family saga", "psychological",
-        "existential", "stream of consciousness"
-    ],
-    "Young Adult": [
-        "teen", "high school", "coming of age", "ya", "youth",
-        "dystopian young adult", "teen drama", "adolescent fiction"
-    ],
-    "Children’s Literature": [
-        "picture book", "storybook", "bedtime", "middle grade",
-        "chapter book", "fairytale retelling"
-    ],
-
-    # — Non‑Fiction — 
-    "Biography & Memoir": [
-        "memoir", "autobiography", "life of", "diary", "journal",
-        "profile", "chronicle", "oral history"
-    ],
-    "Self‑Help & Personal Development": [
-        "self‑help", "motivation", "habits", "productivity",
-        "mindfulness", "growth", "inspiration", "resilience",
-        "confidence", "goal‑setting"
-    ],
-    "Health & Wellness": [
-        "health", "fitness", "diet", "wellness", "medicine",
-        "nutrition", "yoga", "meditation", "therapy", "well‑being",
-        "mental health", "alternative medicine"
-    ],
-    "Cooking & Food": [
-        "cookbook", "recipe", "cooking", "baking", "kitchen",
-        "chef", "gourmet", "vegetarian", "vegan", "barbecue",
-        "wine", "cocktail"
-    ],
-    "Travel & Adventure": [
-        "travel", "tour", "trip", "backpacking", "guidebook",
-        "expedition", "road trip", "journey", "wanderlust",
-        "travel memoir"
-    ],
-    "History": [
-        "history", "ancient", "medieval", "civilization", "war",
-        "empire", "revolution", "archaeology", "historical account"
-    ],
-    "Politics & Current Affairs": [
-        "politics", "election", "government", "policy", "geopolitics",
-        "democracy", "human rights", "international relations"
-    ],
-    "Business & Economics": [
-        "business", "economics", "management", "finance", "leadership",
-        "entrepreneur", "startup", "marketing", "investment",
-        "corporate", "econometrics"
-    ],
-    "Science & Technology": [
-        "science", "physics", "quantum", "chemistry", "biology",
-        "technology", "engineering", "robotics", "computer",
-        "data science", "astronomy", "climate change", "ai", "coding"
-    ],
-    "Education & Reference": [
-        "textbook", "manual", "course", "reference", "academic",
-        "study", "curriculum", "handbook", "guide", "cheat sheet"
-    ],
-    "Religion & Spirituality": [
-        "religion", "spiritual", "faith", "bible", "christianity",
-        "buddhism", "hinduism", "meditation", "scripture", "theology"
-    ],
-    "Poetry & Essays": [
-        "poetry", "poem", "verse", "haiku", "limerick", "sonnet",
-        "essay", "memoir", "prose", "anthology", "lyric"
-    ],
-    "Graphic Novel & Comics": [
-        "comic", "graphic novel", "manga", "webtoon", "illustrated",
-        "superhero", "graphic memoir"
-    ],
-    "Humor & Satire": [
-        "humor", "satire", "parody", "funny", "joke", "comedy",
-        "wit", "quirky", "cartoon"
-    ],
-    "Parenting & Relationships": [
-        "parenting", "family", "marriage", "childcare", "custody",
-        "relationship advice", "pregnancy"
-    ],
-    "Sports & Recreation": [
-        "sports", "football", "soccer", "basketball", "baseball",
-        "outdoors", "fishing", "hiking", "climbing", "fitness guide"
-    ],
-    "Arts & Photography": [
-        "art", "photography", "painting", "drawing", "museum",
-        "gallery", "artist biography", "graphic design"
-    ],
-    "Music & Performing Arts": [
-        "music", "theater", "dance", "opera", "musical", "performance",
-        "composer", "band", "concert"
-    ]
+  "Fantasy": [
+    "magic", "dragon", "wizard", "elf", "fairy", "sorcery", "spell",
+    "kingdom", "orc", "mythic", "faerie", "portal", "elemental",
+    "urban fantasy", "epic fantasy", "high fantasy", "dark fantasy"
+  ],
+  "Science Fiction": [
+    "space", "robot", "alien", "dystopian", "cyberpunk", "futuristic",
+    "time travel", "ai", "post-apocalyptic", "interstellar",
+    "galactic", "terraform", "hard sci-fi", "soft sci-fi", "space opera"
+  ],
+  "Mystery & Thriller": [
+    "detective", "murder", "crime", "thriller", "suspense",
+    "investigation", "whodunit", "noir", "espionage", "conspiracy",
+    "cozy mystery", "psychological thriller", "legal thriller",
+    "police", "private investigators", "women detectives"
+  ],
+  "Romance": [
+    "romance", "love", "affair", "passion", "relationship", "heart",
+    "bridgerton", "historical romance", "contemporary romance",
+    "romantic suspense", "erotic", "paranormal romance", "marriage"
+  ],
+  "Horror": [
+    "ghost", "haunted", "vampire", "werewolf", "zombie", "supernatural",
+    "demon", "possession", "nightmare", "gore", "creepy",
+    "cosmic horror", "slasher", "body horror"
+  ],
+  "Historical Fiction": [
+    "renaissance", "empire", "civil war", "victorian", "viking",
+    "ottoman", "war saga", "period piece", "time slip", "world war"
+  ],
+  "Literary Fiction": [
+    "literary", "bildungsroman", "family saga", "psychological",
+    "existential", "stream of consciousness", "modern fiction", "short stories", "classics"
+  ],
+  "Young Adult": [
+    "teen", "high school", "coming of age", "ya", "youth",
+    "dystopian young adult", "teen drama", "adolescent fiction", "young women"
+  ],
+  "Children’s Literature": [
+    "picture book", "storybook", "bedtime", "middle grade",
+    "chapter book", "fairytale retelling", "juvenile fiction", "children's stories"
+  ],
+  "Biography & Memoir": [
+    "memoir", "autobiography", "life of", "diary", "journal",
+    "profile", "chronicle", "oral history", "biography"
+  ],
+  "Self‑Help & Personal Development": [
+    "self‑help", "motivation", "habits", "productivity",
+    "mindfulness", "growth", "inspiration", "resilience",
+    "confidence", "goal‑setting", "conduct of life", "inspirational"
+  ],
+  "Health & Wellness": [
+    "health", "fitness", "diet", "wellness", "medicine",
+    "nutrition", "yoga", "meditation", "therapy", "well‑being",
+    "mental health", "alternative medicine", "psychology"
+  ],
+  "Cooking & Food": [
+    "cookbook", "recipe", "cooking", "baking", "kitchen",
+    "chef", "gourmet", "vegetarian", "vegan", "barbecue",
+    "wine", "cocktail", "cookery"
+  ],
+  "Travel & Adventure": [
+    "travel", "tour", "trip", "backpacking", "guidebook",
+    "expedition", "road trip", "journey", "wanderlust",
+    "travel memoir", "holiday guides"
+  ],
+  "History": [
+    "history", "ancient", "medieval", "civilization", "war",
+    "revolution", "archaeology", "historical account"
+  ],
+  "Politics & Current Affairs": [
+    "politics", "election", "government", "policy", "geopolitics",
+    "democracy", "human rights", "international relations"
+  ],
+  "Business & Economics": [
+    "business", "economics", "management", "finance", "leadership",
+    "entrepreneur", "startup", "marketing", "investment",
+    "corporate", "econometrics"
+  ],
+  "Science & Technology": [
+    "science", "physics", "quantum", "chemistry", "biology",
+    "technology", "engineering", "robotics", "computer",
+    "data science", "astronomy", "climate change", "coding"
+  ],
+  "Education & Reference": [
+    "textbook", "manual", "course", "reference", "academic",
+    "study", "curriculum", "handbook", "guide", "cheat sheet"
+  ],
+  "Religion & Spirituality": [
+    "religion", "spiritual", "faith", "bible", "christianity",
+    "buddhism", "hinduism", "scripture", "theology",
+    "christian life", "spiritual life"
+  ],
+  "Poetry & Essays": [
+    "poetry", "poem", "verse", "haiku", "limerick", "sonnet",
+    "essay", "prose", "anthology", "lyric"
+  ],
+  "Graphic Novel & Comics": [
+    "comic", "graphic novel", "manga", "webtoon", "illustrated",
+    "superhero", "graphic memoir"
+  ],
+  "Humor & Satire": [
+    "humor", "satire", "parody", "funny", "joke", "comedy",
+    "wit", "quirky", "cartoon"
+  ],
+  "Parenting & Relationships": [
+    "parenting", "family", "marriage", "childcare", "custody",
+    "relationship advice", "pregnancy", "mothers and daughters",
+    "brothers and sisters", "interpersonal relations"
+  ],
+  "Sports & Recreation": [
+    "sports", "football", "soccer", "basketball", "baseball",
+    "outdoors", "fishing", "hiking", "climbing", "fitness guide"
+  ],
+  "Arts & Photography": [
+    "art", "photography", "painting", "drawing", "museum",
+    "gallery", "artist biography", "graphic design"
+  ],
+  "Music & Performing Arts": [
+    "music", "theater", "dance", "opera", "musical", "performance",
+    "composer", "band", "concert"
+  ]
 }
