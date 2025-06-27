@@ -30,7 +30,7 @@ class PredictionPipeline:
             
             self.book_details[title] = {
                 'image_url': image_url, 
-                'genre': row['genre'],
+                'genre': row['subjects'],
                 'author': row['author'],
                 'year': row['year'],
                 'avg_rating': row['avg_rating'],

@@ -5,7 +5,7 @@ artifacts_config:
 
 data_ingestion_config:
   dataset_download_url: ra4u12/bookrecommendation
-  genre_dataset_url: https://raw.githubusercontent.com/razyousuf/Book-Recommendation-Clustering-Pipeline/refs/heads/main/Experiment/genres.csv
+  genre_dataset_url: https://raw.githubusercontent.com/razyousuf/Book-Recommendation-Clustering-Pipeline/refs/heads/main/Experiment/Cleaned_df.csv
   dataset_dir: dataset
   ingested_dir: ingested_data
   raw_data_dir: raw_data
@@ -15,7 +15,7 @@ data_validation_config:
   serialized_objects_dir: serialized_objects
   book_csv_file: BX-Books.csv
   rating_csv_file: BX-Book-Ratings.csv
-  genre_csv_file: genre.csv
+  genre_csv_file: genres.csv
 
 data_transformation_config:
   transformed_data_dir: transformed_data

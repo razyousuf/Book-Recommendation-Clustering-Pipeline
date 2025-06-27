@@ -4,30 +4,6 @@
 - Git: https://git-scm.com/
 - Data link: https://www.kaggle.com/datasets/ra4u12/bookrecommendation
 
-## Git commands
-
-```bash
-git add .
-
-git commit -m "Updated"
-
-git push origin main
-```
-
-## Environments configuration
-
-```bash
-conda create -n book python=3.10 -y
-```
-
-```bash
-conda activate book
-```
-
-```bash
-pip install -r requirements.txt
-```
-
 ## Workflow
 
 1. Config file (Constants)
@@ -40,72 +16,113 @@ pip install -r requirements.txt
 
 ````
 
-# AWS-CICD-Deployment-with-Github-Actions
+# To run this project:
+### Follow these steps:
 
-## 1. Login to AWS console.
-
-## 2. Create IAM user for deployment
-
-    #with specific access
-
-    1. EC2 access : It is virtual machine
-
-    2. ECR: Elastic Container registry to save your docker image in aws
-
-
-    #Description: About the deployment
-
-    1. Build docker image of the source code
-
-    2. Push your docker image to ECR
-
-    3. Launch Your EC2
-
-    4. Pull Your image from ECR in EC2
-
-    5. Lauch your docker image in EC2
-
-    #Policy:
-
-    1. AmazonEC2ContainerRegistryFullAccess
-
-    2. AmazonEC2FullAccess
-
-## 3. Create ECR repo to store/save docker image
-
-    - Save the URI: E.g: "480865595393.dkr.ecr.us-east-1.amazonaws.com/visa"
-
-## 4. Create EC2 machine (Ubuntu)
-
-## 5. Open EC2 and Install docker in EC2 Machine:
-
-    #optinal
+Clone the repository
 
 ```bash
-    sudo apt-get update -y
-
-    sudo apt-get upgrade
-````
-
-    #required
-
-```bash
-    curl -fsSL https://get.docker.com -o get-docker.sh
-
-    sudo sh get-docker.sh
-
-    sudo usermod -aG docker ubuntu
-
-    newgrp docker
+https://github.com/razyousuf/Book-Recommendation-Clustering-Pipeline.git
 ```
 
-# 6. Configure EC2 as self-hosted runner:
+## 01: Environments configuration
 
-    Repo Setting > Actions > Runner > new self-hosted runner > choose os (Linux) > then copy and run the connection and config commands in the EC2 terminal.
+```bash
+conda create -n book python=3.10 -y
+```
 
-# 7. Setup github secrets:
+```bash
+conda activate book
+```
 
-- AWS_ACCESS_KEY_ID
-- AWS_SECRET_ACCESS_KEY
-- AWS_DEFAULT_REGION
-- ECR_REPO
+
+### 02: install the requirements
+```bash
+pip install -r requirements.txt
+```
+
+
+Now run,
+```bash
+streamlit run app.py
+```
+
+
+# Streamlit app Docker Image Deployment
+
+## 1. Login with your AWS console and launch an EC2 instance
+## 2. Run the following commands
+
+Note: Do the port mapping to this port:- 8080
+
+```bash
+sudo apt-get update -y
+
+sudo apt-get upgrade
+
+#Install Docker
+
+curl -fsSL https://get.docker.com -o get-docker.sh
+
+sudo sh get-docker.sh
+
+sudo usermod -aG docker ubuntu
+
+newgrp docker
+```
+
+```bash
+git clone "your-project-repository-url"
+```
+
+```bash
+docker build -t raz/app:latest .
+```
+
+```bash
+docker images -a
+```
+
+```bash
+docker run -d -p 8080:8080 raz/app
+```
+
+```bash
+docker ps
+```
+
+```bash
+docker stop container_id
+```
+
+```bash
+docker rm $(docker ps -a -q)
+```
+
+```bash
+docker login
+```
+
+```bash
+docker push raz/app:latest
+```
+
+```bash
+docker rmi raz/app:latest
+```
+
+```bash
+docker pull raz/app
+```
+---
+
+## Git commands (Informmational only)
+
+```bash
+git add .
+
+git commit -m "Updated"
+
+git push origin main
+```
+````
