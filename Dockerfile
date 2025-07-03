@@ -21,7 +21,7 @@ RUN pip install --upgrade pip && \
 RUN dvc pull && dvc checkout
 
 # Expose the Streamlit port
-EXPOSE 8080
+EXPOSE 8501
 
 # Set the entrypoint
-ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8080", "--server.address=0.0.0.0"]
+ENTRYPOINT ["streamlit", "run", "app.py", "--server.port=8501", "--server.address=0.0.0.0"]
