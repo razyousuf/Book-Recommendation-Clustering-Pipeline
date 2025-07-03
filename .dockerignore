@@ -4,7 +4,5 @@ env/
 venv/
 env.bak/
 venv.bak/
-.dvc/*
-.dvcignore
 demo.py
 Experiment/*
