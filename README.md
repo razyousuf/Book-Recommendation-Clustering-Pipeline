@@ -1,5 +1,19 @@
 # Book-Recommendation-Clustering-Pipeline
 
+An end-to-end modular pipeline for book recommendation using clustering techniques, built with best practices in MLOps, data engineering, and cloud deployment.
+
+---
+
+## Features
+
+- Modular, maintainable pipeline components (data ingestion, validation, transformation, training, prediction)
+- Data versioning and pipeline orchestration using **DVC** for reproducibility
+- Secure management of credentials via **AWS Secrets Manager**
+- Containerised with **Docker** for easy deployment on cloud platforms (e.g. AWS EC2)
+- Interactive **Streamlit** app interface for exploring book recommendations
+- Automated download of datasets from Kaggle and external sources
+- Comprehensive logging and exception handling for robustness
+
 - VS code: https://code.visualstudio.com/download
 - Git: https://git-scm.com/
 - Data link: https://www.kaggle.com/datasets/ra4u12/bookrecommendation
