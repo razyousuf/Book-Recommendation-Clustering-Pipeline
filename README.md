@@ -84,7 +84,7 @@ docker images -a
 ```
 
 ```bash
-docker run -d -p 8080:8080 raz/app
+docker run -d -p 8501:8501 raz/app
 ```
 
 ```bash
