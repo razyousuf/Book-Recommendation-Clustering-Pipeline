@@ -18,7 +18,7 @@ RUN pip install --upgrade pip && \
     pip install dvc
 
 # Pull DVC-tracked data (model, etc.)
-RUN dvc pull && dvc checkout
+#RUN dvc pull && dvc checkout
 
 # Expose the Streamlit port
 EXPOSE 8501
