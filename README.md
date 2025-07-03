@@ -28,9 +28,10 @@ An end-to-end modular pipeline for book recommendation using clustering techniqu
 6. Main file (run pipeline)
 7. App file (User interface)
 
-````
+---
 
 # To run this project:
+
 ### Follow these steps:
 
 Clone the repository
@@ -49,22 +50,22 @@ conda create -n book python=3.10 -y
 conda activate book
 ```
 
-
 ### 02: install the requirements
+
 ```bash
 pip install -r requirements.txt
 ```
 
-
 Now run,
+
 ```bash
 streamlit run app.py
 ```
 
-
 # Streamlit app Docker Image Deployment
 
 ## 1. Login with your AWS console and launch an EC2 instance
+
 ## 2. Run the following commands
 
 Note: Do the port mapping to this port:- 8080
@@ -128,6 +129,7 @@ docker rmi raz/app:latest
 ```bash
 docker pull raz/app
 ```
+
 ---
 
 ## Git commands (Informmational only)
@@ -139,4 +141,5 @@ git commit -m "Updated"
 
 git push origin main
 ```
-````
+
+---
